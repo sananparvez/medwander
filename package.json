@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo 'no build required'"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.3",
+    "xlsx": "^0.18.5"
+  }
+}
