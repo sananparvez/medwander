@@ -59,3 +59,27 @@ app.get('/api/submissions', async (_req, res) => {
   }
 });
 
+// Sync with Excel
+app.post('/api/sync-excel', async (_req, res) => {
+  try {
+    const [rows] = awaitquery('SELECT * FROM form_submissions');
+
+    // Create workbook and worksheet
+    const wb = xlsx.utils.book_new();
+    const ws = xlsx.utils.json_to_sheet(rows);
+    xlsx.utils.book_append_sheet(wb, ws, 'Submissions');
+
+    // Save to file
+    xlsx.writeFile(wb, 'submissions.xlsx');
+
+    res.json({ success: true, message: 'Excel file updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
