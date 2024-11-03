@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "5001:3000"
+    environment:
+      DB_HOST: db
+      DB_USER: sanan
+      DB_PASSWORD: password
+      DB_NAME: medwander
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+
+  db:
+    image: mysql:5.7
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: medwander
+      MYSQL_USER: sanan
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
